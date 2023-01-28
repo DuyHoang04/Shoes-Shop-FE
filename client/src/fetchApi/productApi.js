@@ -57,9 +57,23 @@ function addCommentProduct({ idProduct, newComment, userToken }) {
   });
 }
 
+function getSearchProduct({ textName, page }) {
+  return new Promise((resolve, reject) => {
+    const url = `/products?q=${textName}&page=${page}`;
+    const config = {
+      method: "GET",
+    };
+    fetch(url, config)
+      .then((res) => res.json())
+      .then((res) => resolve(res))
+      .catch((error) => reject(error));
+  });
+}
+
 export {
   getProductsAtHome,
   getProductsFilter,
   getInfoProduct,
   addCommentProduct,
+  getSearchProduct,
 };

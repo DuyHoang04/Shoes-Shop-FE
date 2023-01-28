@@ -90,21 +90,51 @@ export const getAllProduct = async (req, res, next) => {
     const limit = +req.query.limit || 5;
     const lowPrice = req.query.low || "";
     const highPrice = req.query.high || "";
-
+    const activePage = page + 1;
+    let queryName = req.query.q;
     // console.log(tag, brand, lowPrice, highPrice);
 
-    console.log(lowPrice, highPrice);
+    console.log(activePage, queryName);
 
     let products;
-
+    // NEW PRODUCTS
     if (queryNew) {
       products = await Product.find().sort({ createdAt: -1 }).limit(8);
       res.status(200).json(products);
     }
+    // RANDOM PRODUCTS
     if (queryRandom) {
       products = await Product.aggregate([{ $sample: { size: 4 } }]);
       res.status(200).json(products);
     }
+
+    //SEARCH PRODUCT
+    if (activePage && queryName && limit) {
+      queryName = queryName[0].toUpperCase() + queryName.slice(1);
+      const totalRecord = await Product.find({
+        $or: [{ name: { $regex: queryName } }],
+      }).countDocuments();
+      console.log("Vao day ne");
+      const totalPage = Math.ceil(totalRecord / limit);
+      const startIndex = (activePage - 1) * limit;
+      const endIndex = activePage * limit;
+
+      const productList = {};
+      productList.totalProduct = totalRecord;
+      productList.totalPage = totalPage;
+      productList.activePage = activePage;
+
+      productList.products = await Product.find({
+        $or: [{ name: { $regex: queryName } }],
+      })
+        .limit(limit)
+        .skip(startIndex)
+        .exec();
+
+      return res.status(200).json(productList);
+    }
+
+    // GET AND FILTER
     if (tag && brand && lowPrice && highPrice) {
       console.log("1");
       totalProducts = await Product.countDocuments({ tag, brand });
@@ -115,7 +145,7 @@ export const getAllProduct = async (req, res, next) => {
         .skip(page * limit)
         .limit(limit);
       res.status(200).json({
-        activePage: page + 1,
+        activePage,
         totalPage: Math.ceil(+(totalProducts / limit)),
         products,
       });
@@ -130,7 +160,7 @@ export const getAllProduct = async (req, res, next) => {
           .skip(page * limit)
           .limit(limit);
         res.status(200).json({
-          activePage: page + 1,
+          activePage,
           totalPage: Math.ceil(+(totalProducts / limit)),
           products,
         });
@@ -143,7 +173,7 @@ export const getAllProduct = async (req, res, next) => {
             .limit(limit)
             .exec();
           res.status(200).json({
-            activePage: page + 1,
+            activePage,
             totalPage: Math.ceil(+(totalProducts / limit)),
             products,
           });
@@ -157,7 +187,7 @@ export const getAllProduct = async (req, res, next) => {
               .exec();
             console.log(totalProducts);
             res.status(200).json({
-              activePage: page + 1,
+              activePage,
               totalPage: Math.ceil(+(totalProducts / limit)),
               products,
             });

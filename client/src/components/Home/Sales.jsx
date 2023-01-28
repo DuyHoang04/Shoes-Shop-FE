@@ -14,7 +14,7 @@ export const Sales = (props) => {
     slidesToScroll: 1,
     autoplay: true,
     speed: 1000,
-    autoplaySpeed: 1000,
+    autoplaySpeed: 4000,
   };
 
   return (

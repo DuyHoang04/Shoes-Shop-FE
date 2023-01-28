@@ -21,6 +21,7 @@ export const Router = () => {
         <Route path="/home" element={<pages.Home />} />
         <Route path="/register" element={<pages.RegisterPage />} />
         <Route path="/payment/:id" element={<pages.PaymentPage />} />
+        <Route path="/search/:text" element={<pages.SearchPage />} />
       </Routes>
       <Footer />
       {cartShow && <CartContainer />}

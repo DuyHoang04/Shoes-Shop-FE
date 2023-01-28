@@ -54,7 +54,11 @@ export const CardProduct = (props) => {
       <div className="cardProduct">
         <div className="cardProduct_thumbnail">
           <Link to={`/product/${data?._id}`} state={data?._id}>
-            <img src={image} alt="" className="cardProduct_img" />
+            <img
+              src={`http://localhost:8080/${image}`}
+              alt=""
+              className="cardProduct_img"
+            />
           </Link>
           <div className="cardProduct_thumbnail-icon">
             <div>
@@ -65,26 +69,23 @@ export const CardProduct = (props) => {
             </div>
           </div>
         </div>
-
-        <div className="imgSlider">
-          <Slider className="slider" {...settings}>
-            {data?.image.map((img, index) => (
-              <div
-                key={index}
-                className="slider-item"
-                onMouseOver={(e) => changeImage(index)}
-              >
-                <img src={img?.filePath} alt="" />
-              </div>
-            ))}
-          </Slider>
-        </div>
         <div className="cardProduct_details">
           {/* <div className="cardProduct_details-container"> */}
           <p className="cardProduct_details-name">{data?.name}</p>
           <p className="cardProduct_details-price">${data?.price}</p>
           {/* </div> */}
         </div>
+        {/* <div className="imgSlider">
+          {data?.image.map((img, index) => (
+            <div
+              key={index}
+              className="slider-item"
+              onMouseOver={(e) => changeImage(index)}
+            >
+              <img src={`http://localhost:8080/${img?.filePath}`} alt="" />
+            </div>
+          ))}
+        </div> */}
         <ToastContainer />
       </div>
     </>

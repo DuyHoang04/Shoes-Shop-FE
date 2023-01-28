@@ -5,9 +5,9 @@ import {
   GET_PRODUCT_FILTER_REQUEST,
   GET_PRODUCT_FILTER_SUCCESS,
   GET_PRODUCT_FILTER_FAILURE,
-  ADD_COMMENT_PRODUCT_REQUEST,
-  ADD_COMMENT_PRODUCT_SUCCESS,
-  ADD_COMMENT_PRODUCT_FAILURE,
+  GET_SEARCH_PRODUCT_REQUEST,
+  GET_SEARCH_PRODUCT_SUCCESS,
+  GET_SEARCH_PRODUCT_FAILURE,
 } from "../constants/productType";
 
 const getProductRequest = () => {
@@ -50,6 +50,26 @@ const getProductFilterFailure = (payload) => {
     payload,
   };
 };
+const getSearchProductRequest = (payload) => {
+  return {
+    type: GET_SEARCH_PRODUCT_REQUEST,
+    payload,
+  };
+};
+
+const getSearchProductSuccess = (payload) => {
+  return {
+    type: GET_SEARCH_PRODUCT_SUCCESS,
+    payload,
+  };
+};
+
+const getSearchProductFailure = (payload) => {
+  return {
+    type: GET_SEARCH_PRODUCT_FAILURE,
+    payload,
+  };
+};
 
 export {
   getProductRequest,
@@ -58,4 +78,7 @@ export {
   getProductFilterRequest,
   getProductFilterSuccess,
   getProductFilterFailure,
+  getSearchProductRequest,
+  getSearchProductSuccess,
+  getSearchProductFailure,
 };

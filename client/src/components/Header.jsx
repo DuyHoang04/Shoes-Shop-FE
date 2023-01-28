@@ -1,21 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import "../styles/index.scss";
 import Logo from "../img/logo.png";
 import { Search, ShoppingCart } from "@mui/icons-material";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { itemServices } from "../myData";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Link } from "react-router-dom";
 import * as actions from "../action/cartAction";
-
 import { connect } from "react-redux";
 
 const Header = (props) => {
   const { pathname } = useLocation();
+  const navigate = useNavigate();
   const { cartItem, showCartRequest, userId, userToken } = props;
-
+  const [textName, setTextName] = useState();
   const settingsSlick = {
     infinite: true,
     dots: true,
@@ -39,6 +39,13 @@ const Header = (props) => {
   ];
 
   const active = links.findIndex((e) => e.link === pathname);
+
+  const handleSearch = (e) => {
+    if (e.key === "Enter" && textName) {
+      navigate(`/search/${textName}`, { state: { textName } });
+      setTextName("");
+    }
+  };
 
   return (
     <div className="header">
@@ -65,8 +72,14 @@ const Header = (props) => {
           ))}
         </ul>
         <div className="headerNav_left">
-          <div className="headerNav_left-search">
-            <input type="text" placeholder="Tìm Kiếm..." />
+          <div className="headerNav_left-search" onSubmit={handleSearch}>
+            <input
+              type="text"
+              value={textName}
+              placeholder="Tìm Kiếm..."
+              onChange={(e) => setTextName(e.target.value)}
+              onKeyPress={(e) => handleSearch(e)}
+            />
             <Search />
           </div>
           <div className="headerNav_left-cart">

@@ -6,6 +6,7 @@ import { ContactPage } from "./ContactPage";
 import { LoginPage } from "./LoginPage";
 import { RegisterPage } from "./RegisterPage";
 import { PaymentPage } from "./PaymentPage";
+import { SearchPage } from "./SearchPage";
 export {
   AboutPages,
   GenderProducts,
@@ -15,4 +16,5 @@ export {
   LoginPage,
   RegisterPage,
   PaymentPage,
+  SearchPage,
 };

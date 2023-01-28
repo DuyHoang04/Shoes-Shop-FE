@@ -1,0 +1,28 @@
+.search {
+  padding-inline: 10rem;
+  margin-bottom: 5rem;
+  .searchContainer {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    .searchContainer__title {
+      h1 {
+        color: #767676;
+        font-size: 30px;
+        font-weight: 500;
+        line-height: 33px;
+        margin: 20px 0px;
+        text-align: center;
+      }
+    }
+    .searchContainer__product {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+    }
+    .searchContainer__pagination {
+      margin-top: 8rem;
+    }
+  }
+}
