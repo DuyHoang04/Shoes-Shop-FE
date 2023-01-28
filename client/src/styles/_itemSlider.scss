@@ -1,0 +1,60 @@
+.itemSliderContainer {
+  position: relative;
+  img {
+    height: 550px;
+    width: 100%;
+  }
+  .itemSlider_info {
+    position: absolute;
+    width: 400px;
+    top: 50%;
+    left: 35%;
+    transform: translate(-50%, -50%);
+    .itemSlider_info-caption-1 {
+      font-size: 1.5rem;
+    }
+    .divider {
+      width: 150px;
+      height: 2px;
+      margin-top: 10px;
+      background-color: white;
+    }
+    .itemSlider_info-caption-2 {
+      color: white;
+      font-size: 5rem;
+      font-weight: bold;
+    }
+    .itemSlider_info-caption-3 {
+      color: white;
+    }
+    .itemSlider_info-btn {
+      position: relative;
+      margin-top: 30px;
+      padding: 15px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 60px;
+      font-size: 20px;
+      background-color: #2ac37d;
+      color: white;
+      gap: 1rem;
+      border: none;
+      cursor: pointer;
+      svg {
+        font-size: 16px;
+      }
+      &::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: calc(100% + 12px);
+        height: calc(100% + 12px);
+        background-color: #00000012;
+        border-radius: 60px;
+      }
+    }
+  }
+}

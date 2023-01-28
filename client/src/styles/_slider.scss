@@ -1,0 +1,17 @@
+.slider {
+  position: relative;
+  overflow: hidden;
+  .slick-dots {
+    position: absolute;
+    bottom: 10px;
+    .slick-active {
+      button {
+        color: white;
+        &::before {
+          color: #fff;
+          font-size: 10px;
+        }
+      }
+    }
+  }
+}

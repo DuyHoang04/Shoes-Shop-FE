@@ -1,0 +1,10 @@
+.banner {
+  margin-top: 150px;
+  .banner_container {
+    display: flex;
+    align-items: center;
+    img {
+      width: 50%;
+    }
+  }
+}
