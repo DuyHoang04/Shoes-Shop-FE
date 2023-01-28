@@ -26,7 +26,11 @@ function* handleGetCartItem({ payload }) {
   console.log(payload);
   try {
     const data = yield callAPI.getCartItem(payload);
-    yield put(actions.getCartItemSuccess(data.orderItems));
+    if (data) {
+      yield put(actions.getCartItemSuccess(data.orderItems));
+    } else {
+      yield put(actions.getCartItemSuccess([]));
+    }
   } catch (err) {
     yield put(actions.getCartItemFailure(err));
   }

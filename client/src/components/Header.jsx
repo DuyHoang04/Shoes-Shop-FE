@@ -14,7 +14,7 @@ import { connect } from "react-redux";
 
 const Header = (props) => {
   const { pathname } = useLocation();
-  const { cartItem, showCartRequest } = props;
+  const { cartItem, showCartRequest, userId, userToken } = props;
 
   const settingsSlick = {
     infinite: true,
@@ -29,8 +29,6 @@ const Header = (props) => {
   const cartLength = cartItem.reduce(function (acc, item) {
     return acc + item.quantity;
   }, 0);
-
-  const token = localStorage.getItem("token");
 
   const links = [
     { name: "Home", link: "/home" },
@@ -50,7 +48,7 @@ const Header = (props) => {
           804-399-3580
         </p>
         <div className="headerTopBar_btn">
-          {token ? (
+          {userId && userToken ? (
             <Link to="/login">Đăng xuất</Link>
           ) : (
             <Link to="/login">Đăng nhập & Đăng kí</Link>
@@ -99,6 +97,8 @@ const Header = (props) => {
 const mapStateToProps = (state) => {
   return {
     cartItem: state.cart.cartItem,
+    userId: state.auth.userId,
+    userToken: state.auth.userToken,
   };
 };
 

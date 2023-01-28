@@ -21,30 +21,10 @@ const OrderSchema = new mongoose.Schema(
       },
     ],
     shippingAddress: {
-      address: { type: String },
-      city: { type: String },
-      postalCode: { type: String },
-      country: { type: String },
+      type: String,
     },
     paymentMethods: {
       type: String,
-      default: "Paypal",
-    },
-    paymentResult: {
-      id: {
-        type: String,
-      },
-      status: {
-        type: String,
-      },
-      update_time: {
-        type: String,
-      },
-      email_address: { type: String },
-    },
-    taxiPrice: {
-      type: Number,
-      default: 0.0,
     },
     shippingPrice: {
       type: Number,
@@ -53,21 +33,6 @@ const OrderSchema = new mongoose.Schema(
     totalPrice: {
       type: Number,
       default: 0.0,
-    },
-    isPaid: {
-      type: Boolean,
-
-      default: false,
-    },
-    paiAt: {
-      type: Date,
-    },
-    isDelivered: {
-      type: Boolean,
-      default: false,
-    },
-    deliveredAt: {
-      type: Date,
     },
   },
   { timestamps: true }

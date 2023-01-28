@@ -1,14 +1,13 @@
 import Order from "../model/Order.js";
-import User from "../model/User.js";
+import Cart from "../model/Cart.js";
 
 export const createOrder = async (req, res, next) => {
   try {
     const {
       orderItems,
       shippingAddress,
-      paymentMethod,
+      paymentMethods,
       phoneNumber,
-      taxPrice,
       shippingPrice,
       totalPrice,
     } = req.body;
@@ -20,15 +19,15 @@ export const createOrder = async (req, res, next) => {
         user: req.user.id,
         orderItems,
         shippingAddress,
-        paymentMethod,
+        paymentMethods,
         phoneNumber,
-        taxPrice,
         shippingPrice,
         totalPrice,
       });
 
       const createOrder = await order.save();
-      res.status(200).json(createOrder);
+      await Cart.findOneAndDelete({ user: req.user.id });
+      await res.status(200).json(createOrder);
     }
   } catch (err) {
     next(err);

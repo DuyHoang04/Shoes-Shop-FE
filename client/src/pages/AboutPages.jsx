@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Section from "../img/about-section.jpg";
 import { aboutTeam, aboutView } from "../myData";
 import { ArrowForwardIos } from "@mui/icons-material";
@@ -13,6 +13,15 @@ export const AboutPages = () => {
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
   };
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
+  }, []);
+
   return (
     <div className="about">
       <div className="aboutSection" style={myBackGround}>
