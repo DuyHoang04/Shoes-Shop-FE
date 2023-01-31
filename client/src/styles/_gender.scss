@@ -1,0 +1,13 @@
+.gender {
+  display: flex;
+  margin-top: 50px;
+  padding-inline: 2.5rem;
+  gap: 3rem;
+}
+
+@media screen and (max-width: 768px) {
+  .gender {
+    flex-direction: column;
+    padding-inline: 0.5rem;
+  }
+}

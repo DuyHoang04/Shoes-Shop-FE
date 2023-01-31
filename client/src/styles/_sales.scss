@@ -67,3 +67,48 @@
     }
   }
 }
+
+@media screen and (max-width: 768px) {
+  .sales {
+    padding-inline: 1rem;
+    .salesSlider {
+      .salesSlider_container {
+        .slick-list {
+          height: 500px;
+        }
+        .slick-slide {
+          margin: 0 5px;
+        }
+
+        .slick-arrow {
+          display: none;
+          opacity: 1;
+          height: 30px;
+          width: 20px;
+          z-index: 100;
+          transition: all 0.2s ease-out;
+          &.slick-next {
+            right: -100px;
+            display: none;
+          }
+          &.slick-prev {
+            left: -123px;
+          }
+          &::before {
+            color: #000;
+          }
+          &.slick-prev::before,
+          &.slick-next::before {
+            font-size: 30px;
+          }
+        }
+        ul li button {
+          display: none;
+        }
+        li.slick-active button::before {
+          color: #000;
+        }
+      }
+    }
+  }
+}

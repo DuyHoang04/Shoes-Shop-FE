@@ -164,3 +164,18 @@
     }
   }
 }
+
+@media screen and (max-width: 768px) {
+  .about {
+    .aboutTeam {
+      padding-inline: 1rem;
+      .aboutTeam_content {
+        grid-template-columns: repeat(1, 1fr);
+        gap: 4rem;
+      }
+    }
+    .aboutView {
+      flex-direction: column;
+    }
+  }
+}

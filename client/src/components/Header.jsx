@@ -1,7 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import "../styles/index.scss";
 import Logo from "../img/logo.png";
-import { Search, ShoppingCart } from "@mui/icons-material";
+import {
+  Search,
+  ShoppingCart,
+  FormatListBulleted,
+  Close,
+} from "@mui/icons-material";
 import { useLocation, useNavigate } from "react-router-dom";
 import { itemServices } from "../myData";
 import Slider from "react-slick";
@@ -12,6 +17,7 @@ import * as actions from "../action/cartAction";
 import { connect } from "react-redux";
 
 const Header = (props) => {
+  const [showNav, setShowNav] = useState(false);
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const { cartItem, showCartRequest, userId, userToken } = props;
@@ -24,6 +30,12 @@ const Header = (props) => {
     lazyLoad: true,
     autoplay: true,
     autoplaySpeed: 5000,
+  };
+  const navRef = useRef();
+
+  const showHeader = () => {
+    navRef.current.classList.toggle("responsive");
+    setShowNav(!showNav);
   };
 
   const cartLength = cartItem.reduce(function (acc, item) {
@@ -48,7 +60,7 @@ const Header = (props) => {
   };
 
   return (
-    <div className="header">
+    <div ref={navRef} className="header">
       <div className="headerTopBar">
         <p className="headerTopBar_right">
           460 West 34th Street, 15th floor, New York - Hotline: 804-377-3580 -
@@ -56,19 +68,34 @@ const Header = (props) => {
         </p>
         <div className="headerTopBar_btn">
           {userId && userToken ? (
-            <Link to="/login">Đăng xuất</Link>
+            <Link to="/" onClick={showHeader}>
+              Đăng xuất
+            </Link>
           ) : (
             <Link to="/login">Đăng nhập & Đăng kí</Link>
           )}
         </div>
+        <div className="headerTopBar_close" onClick={showHeader}>
+          <div className="close">
+            <Close />
+          </div>
+        </div>
       </div>
       <div className="headerNav">
-        <img src={Logo} alt="" className="headerNav_right" />
+        <Link to="/home">
+          <img src={Logo} alt="" className="headerNav_right" />
+        </Link>
         <ul className="headerNav_link">
           {links.map(({ name, link }, index) => (
-            <li key={index} className={`${index === active ? "active" : ""}`}>
-              <Link to={link}>{name}</Link>
-            </li>
+            <Link to={link}>
+              <li
+                key={index}
+                className={`${index === active ? "active" : ""}`}
+                onClick={showHeader}
+              >
+                {name}
+              </li>
+            </Link>
           ))}
         </ul>
         <div className="headerNav_left">
@@ -82,11 +109,23 @@ const Header = (props) => {
             />
             <Search />
           </div>
-          <div className="headerNav_left-cart">
+          <div
+            className="headerNav_left-cart"
+            onClick={(e) => showCartRequest()}
+          >
             <div className="icon">
-              <ShoppingCart onClick={(e) => showCartRequest()} />
+              <ShoppingCart />
             </div>
             <span>{cartLength}</span>
+          </div>
+
+          <div className="headerNav_left-list">
+            <div
+              className={`${!showNav ? "icon" : "close"}`}
+              onClick={showHeader}
+            >
+              {!showNav ? <FormatListBulleted /> : <Close />}
+            </div>
           </div>
         </div>
       </div>

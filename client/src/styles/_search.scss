@@ -11,6 +11,7 @@
         font-size: 30px;
         font-weight: 500;
         line-height: 33px;
+
         margin: 20px 0px;
         text-align: center;
       }
@@ -23,6 +24,19 @@
     }
     .searchContainer__pagination {
       margin-top: 8rem;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .search {
+    padding-inline: 1rem;
+
+    margin: 150px 0;
+    .searchContainer {
+      .searchContainer__product {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
   }
 }

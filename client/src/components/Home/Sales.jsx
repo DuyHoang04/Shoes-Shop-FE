@@ -14,7 +14,18 @@ export const Sales = (props) => {
     slidesToScroll: 1,
     autoplay: true,
     speed: 1000,
+    infinite: true,
     autoplaySpeed: 4000,
+    responsive: [
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          infinite: true,
+        },
+      },
+    ],
   };
 
   return (

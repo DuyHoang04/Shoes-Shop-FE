@@ -30,12 +30,10 @@ export const Collection = (props) => {
       <div className="collection_products">
         <ProductsContainer />
         <Pagination
+          size={"large"}
           count={totalPage}
           page={activePage}
           color="primary"
-          sx={{
-            color: "red",
-          }}
           onChange={handleChangePage}
         />
       </div>

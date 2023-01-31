@@ -66,7 +66,7 @@ export const DetailReview = (props) => {
             {/* CMT */}
             {data?.reviews.length > 0 ? (
               <div className="detailTabs_reviewCmtContainer">
-                {data?.reviews.map((item, index) => (
+                {data?.reviews?.map((item, index) => (
                   <div className="detailTabs_reviewCmt">
                     <div className="detailTabs_reviewCmt-name">
                       {item?.name}

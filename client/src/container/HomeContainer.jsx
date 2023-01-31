@@ -11,9 +11,9 @@ import { connect } from "react-redux";
 const HomeContainer = (props) => {
   const { productList } = props;
   return (
-    <div>
+    <div style={{ overflow: "hidden" }}>
       <Sliders />
-      <div style={{ padding: "0 10rem" }}>
+      <div>
         <Featured />
       </div>
       <Banner />

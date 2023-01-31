@@ -90,3 +90,10 @@
     }
   }
 }
+
+@media screen and (max-width: 768px) {
+  .payment {
+    padding: 0 2rem;
+    margin: 150px 0;
+  }
+}

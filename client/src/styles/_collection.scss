@@ -47,3 +47,17 @@
     }
   }
 }
+
+@media screen and (max-width: 768px) {
+  .collection {
+    margin-top: 5rem;
+    .collection_banner {
+      display: none;
+    }
+    .collection_products {
+      .cardProductContainer {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  }
+}

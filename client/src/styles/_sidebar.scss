@@ -69,3 +69,17 @@
     }
   }
 }
+
+@media screen and (max-width: 768px) {
+  .sidebar {
+    position: relative;
+    display: flex;
+    align-items: start;
+    width: 100%;
+    height: 100%;
+    justify-content: space-between;
+    .deliver {
+      display: none;
+    }
+  }
+}

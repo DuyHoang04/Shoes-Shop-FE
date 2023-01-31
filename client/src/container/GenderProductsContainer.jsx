@@ -24,14 +24,7 @@ const GenderProductsContainer = (props) => {
   }, [page, tag, brand, highPrice, lowPrice]);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        marginTop: "50px",
-        paddingInline: "2.5rem",
-        gap: "3rem",
-      }}
-    >
+    <div className="gender">
       <SideBar
         setHighPrice={setHighPrice}
         setLowPrice={setLowPrice}

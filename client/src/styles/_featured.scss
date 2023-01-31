@@ -1,4 +1,5 @@
 .featured {
+  padding-inline: 10rem;
   margin-top: 100px;
   .featuredTitle {
     h1 {
@@ -33,5 +34,14 @@
     grid-template-columns: repeat(4, 1fr);
     justify-content: space-between;
     gap: 3rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .featured {
+    padding-inline: 1rem;
+    .cardProductContainer {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 }

@@ -11,3 +11,13 @@
     height: 250px;
   }
 }
+
+@media screen and (max-width: 768px) {
+  .brand {
+    padding: 0;
+    img {
+      width: 130px;
+      height: 130px;
+    }
+  }
+}
