@@ -70,12 +70,41 @@
   .footerContainer {
     position: relative;
     .footerContainer_content {
+      padding: 6rem 3rem;
       position: relative;
       z-index: 10;
-
+      .footerLogo {
+        width: 150px;
+      }
       .footerContainer_left {
-        h1 {
-          color: white;
+        display: flex;
+        align-items: start;
+        gap: 2rem;
+        .footerContainer_left-content {
+          .title {
+            color: #ffffff;
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 36px;
+            margin: 20px 0px 10px;
+            text-transform: uppercase;
+          }
+          .address {
+            color: #999999;
+            display: inline;
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 21px;
+            margin-bottom: 20px;
+          }
+          .email,
+          .phone,
+          .fax {
+            color: #999999;
+            font-size: 14px;
+            line-height: 21px;
+            margin: 0px 0px 10px;
+          }
         }
       }
     }

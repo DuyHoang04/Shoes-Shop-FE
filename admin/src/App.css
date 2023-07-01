@@ -24,10 +24,19 @@ body {
 
 .container {
   display: flex;
-  margin-top: 10px;
 }
 
 .link {
   text-decoration: none;
   color: inherit;
+}
+
+*::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+
+*::-webkit-scrollbar-button {
+  width: 0px;
+  height: 0px;
 }

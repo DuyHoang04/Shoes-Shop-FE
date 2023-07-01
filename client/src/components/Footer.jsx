@@ -3,6 +3,7 @@ import "../styles/index.scss";
 import { Email } from "@mui/icons-material";
 import Logo from "../img/logo-white.png";
 import FooterBg from "../img/footer.jpg";
+import { footerAddress } from "../myData";
 
 export const Footer = () => {
   const myBackGround = {
@@ -29,11 +30,19 @@ export const Footer = () => {
       </div>
       <footer className="footerContainer" style={myBackGround}>
         <div className="footerContainer_content">
+          <div className="footerLogo">
+            <img src={Logo} alt="" />
+          </div>
           <div className="footerContainer_left">
-            <div className="footerLogo">
-              <img src={Logo} alt="" />
-            </div>
-            <h1>gjfgj</h1>
+            {footerAddress.map((item, index) => (
+              <div key={index} className="footerContainer_left-content">
+                <div className="title">{item.title}</div>
+                <div className="address">Address: {item.address}</div>
+                <div className="email">Email: {item.email}</div>
+                <div className="phone">Phone: {item.phone}</div>
+                <div className="fax">Fax: {item.fax}</div>
+              </div>
+            ))}
           </div>
           <div className="footerContainer_right"></div>
         </div>

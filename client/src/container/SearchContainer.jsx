@@ -2,8 +2,8 @@ import React from "react";
 import { useEffect } from "react";
 import { connect } from "react-redux";
 import { Search } from "../components/Search/Search";
-import * as actions from "../action/productAction";
-import * as actionsCart from "../action/cartAction";
+import * as productActions from "../action/productAction";
+import * as cartActions from "../action/cartAction";
 import { useState } from "react";
 
 const SearchContainer = (props) => {
@@ -33,8 +33,6 @@ const SearchContainer = (props) => {
       textName={textName}
       setPage={setPage}
       addCartItemRequest={addCartItemRequest}
-      userId={userId}
-      userToken={userToken}
     />
   );
 };
@@ -46,17 +44,15 @@ const mapStateToProps = (state) => {
     totalPage: state.products.totalPage,
     productList: state.products.productList,
     totalProduct: state.products.totalProduct,
-    userId: state.auth.userId,
-    userToken: state.auth.userToken,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getSearchProduct: (payload) =>
-      dispatch(actions.getSearchProductRequest(payload)),
+      dispatch(productActions.getSearchProductRequest(payload)),
     addCartItemRequest: (payload) =>
-      dispatch(actionsCart.addCartItemRequest(payload)),
+      dispatch(cartActions.addCartItemRequest(payload)),
   };
 };
 

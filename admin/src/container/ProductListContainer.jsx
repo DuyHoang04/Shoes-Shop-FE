@@ -1,17 +1,25 @@
 import React, { useEffect } from "react";
 import ProductList from "../components/productList/ProductList";
 import { connect } from "react-redux";
-import * as actions from "../action/productAction.js";
+import * as productAction from "../action/productAction.js";
 
 export const ProductListContainer = (props) => {
   console.log(props);
-  const { getProductRequest, productList } = props;
-  console.log(productList);
-  useEffect(() => {
-    getProductRequest();
-  }, []);
+  const { getProductRequest, productList, removeProduct } = props;
 
-  return <ProductList productList={productList} />;
+  useEffect(() => {
+    const fetchDataProduct = async () => {
+      await getProductRequest();
+    };
+    fetchDataProduct();
+  }, [getProductRequest]);
+
+  return (
+    <ProductList
+      productList={productList}
+      removeProductRequest={removeProduct}
+    />
+  );
 };
 
 const mapStateToProps = (state) => {
@@ -22,7 +30,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getProductRequest: () => dispatch(actions.getProductsRequest()),
+    getProductRequest: () => dispatch(productAction.getProductsRequest()),
+    removeProduct: (payload) =>
+      dispatch(productAction.removeProductsRequest(payload)),
   };
 };
 

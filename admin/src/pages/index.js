@@ -5,6 +5,7 @@ import { ProductPage } from "./ProductPage";
 import { ProductListPage } from "./ProductListPage";
 import { UserPage } from "./UserPage";
 import { UserListPage } from "./UserListPage";
+import { LoginPage } from "./LoginPage";
 
 export {
   HomePage,
@@ -14,4 +15,5 @@ export {
   UserListPage,
   ProductListPage,
   UserPage,
+  LoginPage,
 };

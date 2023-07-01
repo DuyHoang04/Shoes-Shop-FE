@@ -1,21 +1,21 @@
 import React, { useState } from "react";
 import { itemFilter } from "../../myData";
+import "../../styles/index.scss";
 
 export const SideBar = (props) => {
-  const { setLowPrice, setHighPrice, setBrand } = props;
+  const { setMinPrice, setMaxPrice, setBrandId, brandList } = props;
   const [idChecked, setIdChecked] = useState(null);
   const [indexBrand, setIndexBrand] = useState(null);
-  const brands = ["Nike", "Jordan", "Adidas"];
 
   const handleClick = (index, lowPrice, highPrice) => {
     setIdChecked(index);
-    setLowPrice(lowPrice);
-    setHighPrice(highPrice);
+    setMinPrice(lowPrice);
+    setMaxPrice(highPrice);
   };
 
-  const handleBrand = (brand, index) => {
+  const handleBrand = (brandId, index) => {
     setIndexBrand(index);
-    setBrand(brand);
+    setBrandId(brandId);
   };
 
   return (
@@ -23,13 +23,13 @@ export const SideBar = (props) => {
       <div className="sidebarBrand">
         <div className="sidebarBrand_title">SHOE BRAND</div>
         <div className="sidebarBrand_Item">
-          {brands.map((brand, index) => (
+          {brandList.map((brand, index) => (
             <p
               key={index}
-              onClick={(e) => handleBrand(brand, index)}
+              onClick={(e) => handleBrand(brand.brandId, index)}
               className={`${indexBrand === index && "active"}`}
             >
-              {brand}
+              {brand.name}
             </p>
           ))}
         </div>

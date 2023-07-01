@@ -28,6 +28,8 @@
         }
         .detailInfo_image-main {
           img {
+            width: 600px;
+            height: 600px;
             cursor: pointer;
           }
         }
@@ -152,6 +154,9 @@
           }
         }
         .detailInfo_item-button {
+          display: flex;
+          align-items: center;
+          gap: 2rem;
           button {
             position: relative;
             margin-top: 30px;

@@ -4,15 +4,15 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function NewProduct(props) {
-  const { addProductRequest } = props;
+  const { addProductRequest, brandList } = props;
   const [imgSrc, setImgSrc] = useState([]);
   const [selectedFile, setSelectedFile] = useState([]);
   const [productData, setProductData] = useState({
     name: "",
     desc: "",
     price: "",
-    tag: "Men",
-    brand: "",
+    tag: "",
+    brandId: "",
   });
 
   const toastOptions = {
@@ -23,13 +23,26 @@ export default function NewProduct(props) {
     theme: "dark",
   };
 
+  const resetData = () => {
+    setProductData({
+      name: "",
+      desc: "",
+      price: "",
+      tag: "Men",
+      brandId: "",
+    });
+    setImgSrc([]);
+    setSelectedFile([]);
+    document.getElementById("file").value = null;
+  };
+
   const changeValue = (e) => {
     setProductData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleValidation = () => {
-    const { name, desc, price, tag, brand } = productData;
-    if (!name || !desc || !price || !selectedFile || !tag || !brand) {
+    const { name, desc, price, tag, brandId } = productData;
+    if (!name || !desc || !price || !selectedFile || !tag || !brandId) {
       toast.error("Không được bỏ trống ô nào cả nha!", toastOptions);
       return false;
     } else if (!selectedFile) {
@@ -43,18 +56,20 @@ export default function NewProduct(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (handleValidation()) {
-      const { name, desc, price, tag, brand } = productData;
+      const { name, desc, price, tag, brandId } = productData;
       const filesArray = selectedFile;
       const formData = new FormData();
       formData.append("name", name);
       formData.append("price", price);
       formData.append("description", desc);
       formData.append("tag", tag);
-      formData.append("brand", brand);
+      formData.append("brandId", brandId);
       for (let i = 0; i < filesArray.length; i++) {
-        formData.append("images", filesArray[i]);
+        formData.append("file", filesArray[i]);
       }
+      formData.append("file", filesArray);
       addProductRequest(formData);
+      resetData();
     }
   };
 
@@ -100,9 +115,9 @@ export default function NewProduct(props) {
           <div className="addProductItem">
             <label>Name</label>
             <input
+              value={productData.name}
               type="text"
               name="name"
-              value={productData.name}
               placeholder="Product..."
               onChange={changeValue}
             />
@@ -128,18 +143,30 @@ export default function NewProduct(props) {
             />
           </div>
           <div className="addProductItem">
-            <label>Tag</label>
-            <select name="brand" id="brand" onChange={changeValue}>
-              <option value="">Brand</option>
-              <option value="Nike">Nike</option>
-              <option value="Jordan">Jordan</option>
-              <option value="Adidas">Adidas</option>
+            <label>Brand</label>
+            <select
+              value={productData.brandId}
+              name="brandId"
+              id="brand"
+              onChange={changeValue}
+            >
+              <option value="">Select</option>
+              {brandList.map((brand, index) => (
+                <option key={index} value={brand.brandId}>
+                  {brand.name}
+                </option>
+              ))}
             </select>
           </div>
           <div className="addProductItem">
             <label>Tag</label>
-            <select name="tag" id="tag" onChange={changeValue}>
-              <option value="Men">Tag</option>
+            <select
+              value={productData.tag}
+              name="tag"
+              id="tag"
+              onChange={changeValue}
+            >
+              <option value="">Tag</option>
               <option value="Men">Men</option>
               <option value="Women">Women</option>
             </select>

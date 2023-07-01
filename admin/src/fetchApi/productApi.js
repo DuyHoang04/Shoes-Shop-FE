@@ -1,6 +1,21 @@
+import { getHostName } from "../util/index";
+import { toastSuccess, toastError } from "../util/index";
+
 function getProducts() {
   return new Promise((resolve, reject) => {
-    const url = "/products";
+    console.log("CALL API");
+    const url = `${getHostName()}/products/admin`;
+    const config = { method: "GET" };
+    fetch(url, config)
+      .then((res) => res.json())
+      .then((res) => resolve(res))
+      .catch((error) => reject(error));
+  });
+}
+function getProductDetail(userId) {
+  return new Promise((resolve, reject) => {
+    console.log("CALL API");
+    const url = `${getHostName()}/products/${userId}`;
     const config = { method: "GET" };
     fetch(url, config)
       .then((res) => res.json())
@@ -9,84 +24,104 @@ function getProducts() {
   });
 }
 
-function addProducts(product) {
+function addProducts({ payload, accessToken }) {
   return new Promise((resolve, reject) => {
-    const url = "/products";
+    const url = `${getHostName()}/products`;
     const config = {
       method: "POST",
-      body: product,
+      headers: {
+        authorization: `Bearer ${accessToken}`,
+      },
+      body: payload,
     };
     fetch(url, config)
-      .then((res) => res.json())
-      .then((res) => resolve(res))
-      .catch((error) => reject(error));
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          return res.json().then((error) => {
+            throw new Error(error.message);
+          });
+        }
+      })
+      .then((res) => {
+        resolve(res);
+        toastSuccess(res.message);
+      })
+      .catch((error) => {
+        reject(error);
+        toastError(error.message);
+      });
   });
 }
 
-function deleteStudent(studentId) {
+function updateProducts({ payload, accessToken }) {
+  const { productId, formDataProduct } = payload;
   return new Promise((resolve, reject) => {
-    const url = `http://localhost:8080/students/${studentId}`;
-    const config = {
-      method: "DELETE",
-    };
-
-    fetch(url, config)
-      .then((res) => res.json())
-      .then((res) => resolve(res))
-      .catch((error) => reject(error));
-  });
-}
-
-function updateStudent(updateStudent) {
-  console.log(updateStudent, "UPDATE");
-  return new Promise((resolve, reject) => {
-    const url = "http://localhost:8080/students/" + updateStudent.id;
+    const url = `${getHostName()}/products/update/${productId}`;
     const config = {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: updateStudent?.newName }),
+      headers: {
+        authorization: `Bearer ${accessToken}`,
+      },
+      body: formDataProduct,
     };
-
     fetch(url, config)
-      .then((res) => res.json())
-      .then((res) => resolve(res))
-      .catch((error) => reject(error));
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          return res.json().then((error) => {
+            throw new Error(error.message);
+          });
+        }
+      })
+      .then((res) => {
+        resolve(res);
+        toastSuccess(res.message);
+      })
+      .catch((error) => {
+        reject(error);
+        toastError(error.message);
+      });
   });
 }
 
-function getPaginateStudent(page) {
-  const limit = 5;
+function removeProduct({ payload, accessToken }) {
+  const productId = payload;
   return new Promise((resolve, reject) => {
-    const url = `http://localhost:8080/students?_page=${page}&_limit=${limit}`;
+    const url = `${getHostName()}/products/delete/${productId}`;
     const config = {
-      method: "GET",
+      method: "DELETE",
+      headers: {
+        authorization: `Bearer ${accessToken}`,
+      },
     };
     fetch(url, config)
-      .then((res) => res.json())
-      .then((res) => resolve(res))
-      .catch((error) => reject(error));
-  });
-}
-
-function getSearchPaginateStudent({ textName, page }) {
-  const limit = 5;
-  return new Promise((resolve, reject) => {
-    const url = `http://localhost:8080/students?q=${textName}&_page=${page}&_limit=${limit}`;
-    const config = {
-      method: "GET",
-    };
-    fetch(url, config)
-      .then((res) => res.json())
-      .then((res) => resolve(res))
-      .catch((error) => reject(error));
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          return res.json().then((error) => {
+            throw new Error(error.message);
+          });
+        }
+      })
+      .then((res) => {
+        resolve(res);
+        toastSuccess(res.message);
+      })
+      .catch((error) => {
+        reject(error);
+        toastError(error.message);
+      });
   });
 }
 
 export {
   getProducts,
   addProducts,
-  deleteStudent,
-  updateStudent,
-  getPaginateStudent,
-  getSearchPaginateStudent,
+  getProductDetail,
+  updateProducts,
+  removeProduct,
 };

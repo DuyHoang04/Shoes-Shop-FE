@@ -10,7 +10,7 @@ import * as callAPI from "../fetchApi/productApi";
 function* handleGetProductAtHome() {
   console.log("Vo");
   try {
-    const data = yield callAPI.getProductsAtHome();
+    const { data } = yield callAPI.getProductsAtHome();
     yield put(actions.getProductSuccess(data));
   } catch (err) {
     yield put(actions.getProductFailure(err));
@@ -20,8 +20,7 @@ function* handleGetProductAtHome() {
 function* handleGetProductFilter({ payload }) {
   console.log(payload);
   try {
-    const data = yield callAPI.getProductsFilter(payload);
-    console.log(data);
+    const { data } = yield callAPI.getProductsFilter(payload);
     yield put(actions.getProductFilterSuccess(data));
   } catch (err) {
     yield put(actions.getProductFilterFailure(err));
@@ -31,7 +30,7 @@ function* handleGetProductFilter({ payload }) {
 function* handleGetSearchProduct({ payload }) {
   console.log(payload);
   try {
-    const data = yield callAPI.getSearchProduct(payload);
+    const { data } = yield callAPI.getSearchProduct(payload);
     yield put(actions.getSearchProductSuccess(data));
   } catch (err) {
     yield put(actions.getSearchProductFailure(err));

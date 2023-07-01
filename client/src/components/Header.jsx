@@ -20,7 +20,7 @@ const Header = (props) => {
   const [showNav, setShowNav] = useState(false);
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const { cartItem, showCartRequest, userId, userToken } = props;
+  const { cartItem, showCartRequest, accessToken } = props;
   const [textName, setTextName] = useState();
   const settingsSlick = {
     infinite: true,
@@ -43,11 +43,11 @@ const Header = (props) => {
   }, 0);
 
   const links = [
-    { name: "Home", link: "/home" },
-    { name: "Men", link: "/Men" },
-    { name: "Women", link: "/Women" },
-    { name: "About Us", link: "/about" },
-    { name: "Contact", link: "/contact" },
+    { name: "HOME", link: "/home" },
+    { name: "MEN", link: "/Men" },
+    { name: "WOMEN", link: "/Women" },
+    { name: "ABOUT US", link: "/about" },
+    { name: "CONTACT", link: "/contact" },
   ];
 
   const active = links.findIndex((e) => e.link === pathname);
@@ -67,7 +67,7 @@ const Header = (props) => {
           804-399-3580
         </p>
         <div className="headerTopBar_btn">
-          {userId && userToken ? (
+          {accessToken ? (
             <Link to="/" onClick={showHeader}>
               Đăng xuất
             </Link>
@@ -149,8 +149,7 @@ const Header = (props) => {
 const mapStateToProps = (state) => {
   return {
     cartItem: state.cart.cartItem,
-    userId: state.auth.userId,
-    userToken: state.auth.userToken,
+    accessToken: state.auth.accessToken,
   };
 };
 

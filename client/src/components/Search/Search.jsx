@@ -11,8 +11,6 @@ export const Search = (props) => {
     textName,
     setPage,
     addCartItemRequest,
-    userId,
-    userToken,
     isFetching,
   } = props;
 
@@ -35,8 +33,6 @@ export const Search = (props) => {
                   key={index}
                   data={product}
                   addCartItemRequest={addCartItemRequest}
-                  userId={userId}
-                  userToken={userToken}
                 />
               ))
             ) : (

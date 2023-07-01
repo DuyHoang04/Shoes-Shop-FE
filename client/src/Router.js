@@ -20,7 +20,7 @@ export const Router = () => {
         <Route path="/contact" element={<pages.ContactPage />} />
         <Route path="/home" element={<pages.Home />} />
         <Route path="/register" element={<pages.RegisterPage />} />
-        <Route path="/payment/:id" element={<pages.PaymentPage />} />
+        <Route path="/payment" element={<pages.PaymentPage />} />
         <Route path="/search/:text" element={<pages.SearchPage />} />
       </Routes>
       <Footer />

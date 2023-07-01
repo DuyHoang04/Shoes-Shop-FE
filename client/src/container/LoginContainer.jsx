@@ -1,27 +1,22 @@
 import { Login } from "../components/Auth/Login";
 import React from "react";
 import { connect } from "react-redux";
-import * as actions from "../action/authAction";
+import * as authActions from "../action/authAction";
 
 const LoginContainer = (props) => {
-  const { userToken, userId } = props;
-  const { loginRequest } = props;
-  console.log(props);
-  return (
-    <Login loginRequest={loginRequest} userToken={userToken} userId={userId} />
-  );
+  const { loginRequest, accessToken } = props;
+  return <Login loginRequest={loginRequest} accessToken={accessToken} />;
 };
 
 const mapStateToProps = (state) => {
   return {
-    userToken: state.auth.userToken,
-    userId: state.auth.userId,
+    accessToken: state.auth.accessToken,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loginRequest: (payload) => dispatch(actions.loginRequest(payload)),
+    loginRequest: (payload) => dispatch(authActions.loginRequest(payload)),
   };
 };
 

@@ -5,10 +5,8 @@ import { LOGIN_REQUEST, REGISTER_REQUEST } from "../constants/AuthType.js";
 
 function* handleLogin({ payload }) {
   try {
-    console.log(payload);
-    const data = yield callAPI.Login(payload);
-    console.log(data);
-    yield put(actions.loginSuccess(data));
+    const { token } = yield callAPI.Login(payload);
+    yield put(actions.loginSuccess(token));
   } catch (err) {
     yield put(actions.loginFailure(err));
   }

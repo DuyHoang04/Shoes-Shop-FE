@@ -1,4 +1,5 @@
 .collection {
+  width: 85%;
   .collection_banner {
     display: flex;
     align-items: center;
@@ -44,6 +45,9 @@
       grid-template-columns: repeat(4, 1fr);
       justify-content: space-between;
       gap: 3rem;
+      &.gender {
+        grid-template-columns: repeat(3, 1fr);
+      }
     }
   }
 }

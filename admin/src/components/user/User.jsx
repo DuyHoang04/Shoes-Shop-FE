@@ -1,58 +1,122 @@
 import {
-  CalendarToday,
   LocationSearching,
   MailOutline,
   PermIdentity,
-  PhoneAndroid,
-  Publish,
 } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import { Modal, Backdrop, Fade, TextField, Button, Box } from "@mui/material";
+import { Link, useLocation } from "react-router-dom";
 import "./user.css";
+import avatar from "../../public/image/avatar.png";
+import { useState, useEffect } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { toastOptions } from "../../util";
 
-export default function User() {
+export default function User(props) {
+  const [openModal, setOpenModal] = useState(false);
+
+  const { userData, getUser, userId, updateUser, changePassword } = props;
+  const [dataPass, setDataPass] = useState({
+    oldPassword: "",
+    newPassword: "",
+  });
+
+  const [dataUpdate, setDataUpdate] = useState({
+    username: "",
+    email: "",
+    status: "",
+    role: "",
+  });
+
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "background.paper",
+    boxShadow: 24,
+    p: 4,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: "3rem",
+  };
+
+  const handleOpenModal = (e) => {
+    e.preventDefault();
+    setOpenModal(true);
+  };
+
+  const handleChangeValuePassword = (e) => {
+    setDataPass((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleChangeValueUpdate = (e) => {
+    setDataUpdate((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleUpdateUser = (e) => {
+    e.preventDefault();
+    if (validateData()) {
+      updateUser({ dataUpdate, userId });
+      setDataUpdate({
+        username: "",
+        email: "",
+        status: "",
+        role: "",
+      });
+    }
+  };
+
+  const handleChangePassword = (e) => {
+    e.preventDefault();
+    changePassword({ dataPass, userId });
+  };
+
+  const validateData = () => {
+    console.log(dataUpdate);
+    const { username, email, status, role } = dataUpdate;
+
+    if (!username || !email || !status || !role) {
+      toast.error("Không được bỏ trống Ô nào", toastOptions);
+      return false;
+    } else {
+      return true;
+    }
+  };
+
   return (
     <div className="user">
       <div className="userTitleContainer">
         <h1 className="userTitle">Edit User</h1>
-        <Link to="/newUser">
+        <Link to="/addUser">
           <button className="userAddButton">Create</button>
         </Link>
       </div>
       <div className="userContainer">
         <div className="userShow">
           <div className="userShowTop">
-            <img
-              src="https://images.pexels.com/photos/1152994/pexels-photo-1152994.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-              alt=""
-              className="userShowImg"
-            />
+            <img src={avatar} alt="" className="userShowImg" />
             <div className="userShowTopTitle">
-              <span className="userShowUsername">Anna Becker</span>
-              <span className="userShowUserTitle">Software Engineer</span>
+              <span className="userShowUsername">{userData?.username}</span>
+              <span className="userShowUserTitle">{userData?.role}</span>
             </div>
           </div>
           <div className="userShowBottom">
             <span className="userShowTitle">Account Details</span>
             <div className="userShowInfo">
               <PermIdentity className="userShowIcon" />
-              <span className="userShowInfoTitle">annabeck99</span>
-            </div>
-            <div className="userShowInfo">
-              <CalendarToday className="userShowIcon" />
-              <span className="userShowInfoTitle">10.12.1999</span>
-            </div>
-            <span className="userShowTitle">Contact Details</span>
-            <div className="userShowInfo">
-              <PhoneAndroid className="userShowIcon" />
-              <span className="userShowInfoTitle">+1 123 456 67</span>
+              <span className="userShowInfoTitle">{userData?.status}</span>
             </div>
             <div className="userShowInfo">
               <MailOutline className="userShowIcon" />
-              <span className="userShowInfoTitle">annabeck99@gmail.com</span>
+              <span className="userShowInfoTitle">{userData?.email}</span>
             </div>
             <div className="userShowInfo">
               <LocationSearching className="userShowIcon" />
-              <span className="userShowInfoTitle">New York | USA</span>
+              <span className="userShowInfoTitle">Vietnamese</span>
             </div>
           </div>
         </div>
@@ -63,61 +127,108 @@ export default function User() {
               <div className="userUpdateItem">
                 <label>Username</label>
                 <input
+                  value={dataUpdate.username}
                   type="text"
-                  placeholder="annabeck99"
+                  placeholder={userData?.username}
                   className="userUpdateInput"
-                />
-              </div>
-              <div className="userUpdateItem">
-                <label>Full Name</label>
-                <input
-                  type="text"
-                  placeholder="Anna Becker"
-                  className="userUpdateInput"
+                  name="username"
+                  onChange={handleChangeValueUpdate}
                 />
               </div>
               <div className="userUpdateItem">
                 <label>Email</label>
                 <input
+                  value={dataUpdate.email}
                   type="text"
-                  placeholder="annabeck99@gmail.com"
+                  placeholder={userData?.email}
                   className="userUpdateInput"
+                  name="email"
+                  onChange={handleChangeValueUpdate}
                 />
               </div>
               <div className="userUpdateItem">
-                <label>Phone</label>
-                <input
-                  type="text"
-                  placeholder="+1 123 456 67"
-                  className="userUpdateInput"
-                />
+                <label>Gender</label>
+                <div className="userUpdateItem">
+                  <label>Role</label>
+                  <select
+                    value={dataUpdate.role}
+                    onChange={handleChangeValueUpdate}
+                    name="role"
+                    className="userUpdateSelect"
+                  >
+                    <option value="">Select</option>
+                    <option value="ADMIN">ADMIN</option>
+                    <option value="USER">USER</option>
+                  </select>
+                </div>
               </div>
               <div className="userUpdateItem">
-                <label>Address</label>
-                <input
-                  type="text"
-                  placeholder="New York | USA"
-                  className="userUpdateInput"
-                />
+                <label>Status</label>
+                <select
+                  value={dataUpdate.status}
+                  onChange={handleChangeValueUpdate}
+                  name="status"
+                  className="userUpdateSelect"
+                >
+                  <option value="">Select</option>
+                  <option value="Active">Active</option>
+                  <option value="Inactive">Inactive</option>
+                </select>
               </div>
             </div>
             <div className="userUpdateRight">
-              <div className="userUpdateUpload">
-                <img
-                  className="userUpdateImg"
-                  src="https://images.pexels.com/photos/1152994/pexels-photo-1152994.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-                  alt=""
-                />
-                <label htmlFor="file">
-                  <Publish className="userUpdateIcon" />
-                </label>
-                <input type="file" id="file" style={{ display: "none" }} />
-              </div>
-              <button className="userUpdateButton">Update</button>
+              <button onClick={handleOpenModal} className="userUpdateButton">
+                Change Password
+              </button>
+              <button onClick={handleUpdateUser} className="userUpdateButton">
+                Update
+              </button>
             </div>
           </form>
         </div>
       </div>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={openModal}
+        onClose={(e) => setOpenModal(false)}
+        closeAfterTransition
+        slots={{ backdrop: Backdrop }}
+        slotProps={{
+          backdrop: {
+            timeout: 500,
+          },
+        }}
+      >
+        <Fade in={openModal}>
+          <Box sx={style}>
+            <div className="inputContainer">
+              <TextField
+                name="oldPassword"
+                label="Old Password"
+                variant="outlined"
+                type="password"
+                onChange={handleChangeValuePassword}
+              />
+              <TextField
+                name="newPassword"
+                label="New Password"
+                variant="outlined"
+                type="password"
+                onChange={handleChangeValuePassword}
+              />
+            </div>
+            <Button
+              onClick={handleChangePassword}
+              sx={{ width: "200px" }}
+              variant="contained"
+            >
+              Change Password
+            </Button>
+          </Box>
+        </Fade>
+      </Modal>
+      <ToastContainer />
     </div>
   );
 }

@@ -8,17 +8,18 @@ export const Router = () => {
   return (
     <Routers>
       <>
-        <Topbar />
+        {window.location.pathname !== "/login" && <Topbar />}
         <div className="container">
-          <Sidebar />
+          {window.location.pathname !== "/login" && <Sidebar />}
           <Routes>
             <Route path="/" element={<pages.HomePage />} />
-            <Route path="/sanpham" element={<pages.ProductListPage />} />
-            <Route path="/sanpham/:id" element={<pages.ProductPage />} />
-            <Route path="/themsanpham" element={<pages.NewProductPage />} />
-            <Route path="/nguoidung" element={<pages.UserListPage />} />
-            <Route path="/nguoidung/:id" element={<pages.UserPage />} />
-            <Route path="/themnguoidung" element={<pages.NewUserPage />} />
+            <Route path="/product" element={<pages.ProductListPage />} />
+            <Route path="/product/:id" element={<pages.ProductPage />} />
+            <Route path="/addProduct" element={<pages.NewProductPage />} />
+            <Route path="/user" element={<pages.UserListPage />} />
+            <Route path="/user/:id" element={<pages.UserPage />} />
+            <Route path="/addUser" element={<pages.NewUserPage />} />
+            <Route path="/login" element={<pages.LoginPage />} />
           </Routes>
         </div>
       </>

@@ -7,10 +7,15 @@ import * as selector from "../selectors/index";
 
 function* handleCreateOrder({ payload }) {
   try {
-    yield callAPI.createOrderItem(payload);
-    const userId = yield select(selector.userId);
+    const accessToken = yield select(selector.accessToken);
+    yield callAPI.createOrderItem({
+      orderData: payload.orderData,
+      navigate: payload.navigate,
+      is_checkout_cart: payload.is_checkout_cart,
+      accessToken,
+    });
     yield put(actions.createOrderSuccess());
-    yield put(actionsCart.getCartItemRequest(userId));
+    yield put(actionsCart.getCartItemRequest(accessToken));
   } catch (err) {
     yield put(actions.createOrderFailure(err));
   }

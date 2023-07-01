@@ -1,22 +1,16 @@
 import React, { useState } from "react";
-import { cartProduct } from "../../myData";
 import { Rating } from "@mui/material";
 import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { getHostName, toastOptions } from "../../util";
+import { useNavigate } from "react-router-dom";
 
 export const DetailInfo = (props) => {
-  const { data, addCartItemRequest, userId, userToken } = props;
+  const { data, addCartItemRequest, accessToken, createOrderRequest } = props;
   const [indexImg, setIndexImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
-
-  const toastOptions = {
-    position: "top-right",
-    autoClose: 3000,
-    pauseOnHover: true,
-    draggable: true,
-    theme: "dark",
-  };
+  const navigate = useNavigate();
 
   const setAmount = (action) => {
     if (action === "plus") {
@@ -33,18 +27,23 @@ export const DetailInfo = (props) => {
     setQuantity(e.target.value);
   };
 
-  console.log(quantity);
-
   const handleAddCart = () => {
-    if (userId) {
-      const cartItem = {
-        name: data?.name,
+    if (accessToken) {
+      const dataCart = {
         quantity,
-        image: data?.image[0].filePath,
-        price: data?.price,
-        product: data?._id,
       };
-      addCartItemRequest({ userId, cartItem, userToken });
+      addCartItemRequest({ dataCart, productId: data.productId });
+    } else {
+      toast.error("PLEASE LOGIN", toastOptions);
+    }
+  };
+
+  const handleOrder = () => {
+    const dataOrder = { ...data, quantity };
+    if (accessToken) {
+      navigate("/payment", {
+        state: { dataOrder: [dataOrder], is_checkout_cart: false },
+      });
     } else {
       toast.error("PLEASE LOGIN", toastOptions);
     }
@@ -60,16 +59,18 @@ export const DetailInfo = (props) => {
                 key={index}
                 className={indexImg === index ? "active" : ""}
                 onClick={(e) => setIndexImage(index)}
-                src={`http://localhost:8080/${img?.filePath}`}
+                src={`${getHostName()}/images/${img?.name}`}
                 alt=""
               />
             ))}
           </div>
           <div className="detailInfo_image-main">
-            <img
-              src={`http://localhost:8080/${data?.image[indexImg]?.filePath}`}
-              alt=""
-            />
+            {data?.image && data.image.length > 0 && (
+              <img
+                src={`${getHostName()}/images/${data.image[indexImg].name}`}
+                alt=""
+              />
+            )}
           </div>
         </div>
         <div className="detailInfo_item">
@@ -79,7 +80,7 @@ export const DetailInfo = (props) => {
               defaultValue={data?.rating}
               readOnly
             />
-            <p>{data?.numReviews} review </p>
+            <p>{data?.num_reviews} review </p>
           </div>
           <div className="detailInfo_item-name">
             <p>{data?.name}</p>
@@ -109,6 +110,7 @@ export const DetailInfo = (props) => {
 
           <div className="detailInfo_item-button">
             <button onClick={handleAddCart}>Add to Cart</button>
+            <button onClick={handleOrder}>Pay Now</button>
           </div>
         </div>
       </div>

@@ -4,8 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export const Login = (props) => {
-  const { userToken, userId } = props;
-  const { loginRequest } = props;
+  const { loginRequest, accessToken } = props;
   const navigate = useNavigate();
   const [credentials, setCredentials] = useState({
     email: null,
@@ -21,10 +20,10 @@ export const Login = (props) => {
   };
 
   useEffect(() => {
-    if (userToken && userId) {
+    if (accessToken) {
       navigate("/home");
     }
-  }, []);
+  }, [accessToken]);
 
   const handleChange = (e) => {
     setCredentials((prev) => ({ ...prev, [e.target.id]: e.target.value }));
@@ -50,10 +49,7 @@ export const Login = (props) => {
     if (ValidateForm()) {
       try {
         loginRequest(credentials);
-        if (!userId && !userToken) {
-          console.log("VO DAY NE");
-          navigate("/home");
-        }
+        console.log(accessToken);
       } catch (err) {
         alert("LOI");
       }

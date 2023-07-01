@@ -6,14 +6,13 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export const DetailReview = (props) => {
-  const { data, addCommentRequest, userToken, userId } = props;
+  const { data, addCommentRequest, accessToken } = props;
   const [indexTab, setIndexTab] = useState(0);
   const [changeContent, setChangeContent] = useState(false);
   const [newComment, setNewComment] = useState({
     username: null,
     rating: null,
     comment: null,
-    userId,
   });
 
   const toastOptions = {
@@ -23,8 +22,6 @@ export const DetailReview = (props) => {
     draggable: true,
     theme: "dark",
   };
-
-  console.log(newComment);
 
   const handleChange = (index, title) => {
     setIndexTab(index);
@@ -36,11 +33,11 @@ export const DetailReview = (props) => {
   };
 
   const handleSubmit = () => {
-    const { username, rating, comment, userId } = newComment;
-    if (!username || !rating || !comment || !userId) {
+    const { username, rating, comment } = newComment;
+    if (!username || !rating || !comment) {
       toast.error("Đừng để trống ô nào", toastOptions);
     } else {
-      addCommentRequest({ idProduct: data._id, newComment, userToken });
+      addCommentRequest({ productId: data.productId, newComment });
     }
   };
 
@@ -50,6 +47,7 @@ export const DetailReview = (props) => {
         <div className="detailTabs_nav">
           {detailTabs.map((item, index) => (
             <div
+              key={index}
               className={`detailTabs_nav-item ${
                 indexTab === index ? "active" : ""
               } `}
@@ -67,14 +65,14 @@ export const DetailReview = (props) => {
             {data?.reviews.length > 0 ? (
               <div className="detailTabs_reviewCmtContainer">
                 {data?.reviews?.map((item, index) => (
-                  <div className="detailTabs_reviewCmt">
+                  <div key={index} className="detailTabs_reviewCmt">
                     <div className="detailTabs_reviewCmt-name">
-                      {item?.name}
+                      {item?.username}
                     </div>
                     <div className="detailTabs_reviewCmt-rating">
                       <Rating
                         name="half-rating-read"
-                        defaultValue={item?.rating}
+                        defaultValue={Number(item?.rating)}
                         readOnly
                       />
                     </div>
@@ -115,7 +113,7 @@ export const DetailReview = (props) => {
                 <h1>Comment</h1>
                 <textarea name="comment" onChange={changeValue}></textarea>
               </div>
-              {userId ? (
+              {accessToken ? (
                 <div className="detailTabs_reviewCreate-btn">
                   <button onClick={handleSubmit}>Submit</button>
                 </div>

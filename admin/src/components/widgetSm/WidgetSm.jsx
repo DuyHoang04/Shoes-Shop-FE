@@ -1,7 +1,8 @@
 import "./widgetSm.css";
 import { Visibility } from "@mui/icons-material";
 
-export default function WidgetSm() {
+export default function WidgetSm({ userList }) {
+  console.log(userList);
   return (
     <div className="widgetSm">
       <span className="widgetSmTitle">New Join Members</span>

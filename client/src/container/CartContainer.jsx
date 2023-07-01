@@ -1,8 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Cart } from "../components/Cart/Cart";
-import * as actions from "../action";
+import * as cartActions from "../action/cartAction";
 import { useEffect } from "react";
+import { accessToken } from "../selectors";
 
 export const CartContainer = (props) => {
   const {
@@ -10,23 +11,24 @@ export const CartContainer = (props) => {
     cartItem,
     hideCartRequest,
     addCartItemRequest,
-    userId,
-    userToken,
+    accessToken,
   } = props;
 
   useEffect(() => {
-    if (userId) {
-      getCartItemRequest(userId);
+    if (accessToken) {
+      const fetchData = async () => {
+        await getCartItemRequest();
+      };
+      fetchData();
     }
   }, []);
 
   return (
     <Cart
+      accessToken={accessToken}
       cartItem={cartItem}
       hideCartRequest={hideCartRequest}
       addCartItemRequest={addCartItemRequest}
-      userId={userId}
-      userToken={userToken}
     />
   );
 };
@@ -34,18 +36,17 @@ export const CartContainer = (props) => {
 const mapStateToProps = (state) => {
   return {
     cartItem: state.cart.cartItem,
-    userId: state.auth.userId,
-    userToken: state.auth.userToken,
+    accessToken: state.auth.accessToken,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getCartItemRequest: (payload) =>
-      dispatch(actions.carts.getCartItemRequest(payload)),
-    hideCartRequest: () => dispatch(actions.carts.hideCartRequest()),
+      dispatch(cartActions.getCartItemRequest(payload)),
+    hideCartRequest: () => dispatch(cartActions.hideCartRequest()),
     addCartItemRequest: (payload) =>
-      dispatch(actions.carts.addCartItemRequest(payload)),
+      dispatch(cartActions.addCartItemRequest(payload)),
   };
 };
 

@@ -7,16 +7,13 @@ import { CartItem } from "./CartItem";
 import { Link, useLocation } from "react-router-dom";
 
 export const Cart = (props) => {
-  const { cartItem, hideCartRequest, addCartItemRequest, userId, userToken } =
-    props;
+  const { cartItem, accessToken, hideCartRequest, addCartItemRequest } = props;
   const [total, setTotal] = useState(0);
   const { pathname } = useLocation();
   const newPath = pathname.slice(1, 10);
 
-  const handleCartShow = () => {};
-
   useEffect(() => {
-    let totalPrice = cartItem.reduce(function (accumulator, item) {
+    let totalPrice = cartItem?.reduce(function (accumulator, item) {
       return accumulator + item.quantity * item.price;
     }, 0);
     setTotal(totalPrice);
@@ -56,12 +53,11 @@ export const Cart = (props) => {
             <div className="cart-item">
               {cartItem?.map((product, index) => (
                 <CartItem
+                  accessToken={accessToken}
                   key={index}
                   product={product}
                   path={newPath}
                   addCartItemRequest={addCartItemRequest}
-                  userId={userId}
-                  userToken={userToken}
                 />
               ))}
             </div>
@@ -84,8 +80,8 @@ export const Cart = (props) => {
                   <></>
                 ) : (
                   <Link
-                    to={`/payment/${userId}`}
-                    state={{ cartItem, total }}
+                    to={`/payment`}
+                    state={{ dataOrder: cartItem, is_checkout_cart: true }}
                     onClick={(e) => hideCartRequest()}
                   >
                     <motion.button

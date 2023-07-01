@@ -1,4 +1,4 @@
-import { takeEvery, put } from "redux-saga/effects";
+import { takeEvery, put, select } from "redux-saga/effects";
 import {
   GET_INFO_PRODUCT_REQUEST,
   ADD_COMMENT_PRODUCT_REQUEST,
@@ -9,7 +9,7 @@ import * as selector from "../selectors/index";
 
 function* handleGetInfoProduct({ payload }) {
   try {
-    const data = yield callAPI.getInfoProduct(payload);
+    const { data } = yield callAPI.getInfoProduct(payload);
     yield put(actions.getInfoProductSuccess(data));
   } catch (err) {
     yield put(actions.getInfoProductFailure(err));
@@ -18,9 +18,11 @@ function* handleGetInfoProduct({ payload }) {
 
 function* handleAddCommentProduct({ payload }) {
   try {
-    yield callAPI.addCommentProduct(payload);
+    console.log(payload);
+    const accessToken = yield select(selector.accessToken);
+    yield callAPI.addCommentProduct({ accessToken, payload });
     yield put(actions.addCommentProductSuccess());
-    yield put(actions.getInfoProductRequest(payload.idProduct));
+    yield put(actions.getInfoProductRequest(payload.productId));
   } catch (err) {
     yield put(actions.addCommentProductFailure(err));
   }

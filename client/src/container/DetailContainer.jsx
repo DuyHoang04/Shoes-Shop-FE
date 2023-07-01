@@ -2,7 +2,9 @@ import React, { useEffect } from "react";
 import { DetailInfo } from "../components/Detail/DetailInfo";
 import { DetailReview } from "../components/Detail/DetailReview";
 import { connect } from "react-redux";
-import * as actions from "../action";
+import * as infoProductActions from "../action/InfoProductAction";
+import * as cartActions from "../action/cartAction";
+import * as orderActions from "../action/orderAction";
 
 const DetailContainer = (props) => {
   const {
@@ -11,14 +13,17 @@ const DetailContainer = (props) => {
     product,
     addCartItemRequest,
     addCommentRequest,
-    userId,
-    userToken,
+    accessToken,
     isFetching,
+    createOrderRequest,
   } = props;
 
   useEffect(() => {
-    getInfoProduct(id);
-  }, []);
+    const fetchData = async () => {
+      await getInfoProduct(id);
+    };
+    fetchData();
+  }, [id]);
 
   return (
     <div className="detail">
@@ -28,15 +33,14 @@ const DetailContainer = (props) => {
             <DetailInfo
               data={product}
               addCartItemRequest={addCartItemRequest}
-              userId={userId}
-              userToken={userToken}
+              accessToken={accessToken}
+              createOrderRequest={createOrderRequest}
             />
             {/* DECS AND REVIEW */}
             <DetailReview
+              accessToken={accessToken}
               data={product}
               addCommentRequest={addCommentRequest}
-              userToken={userToken}
-              userId={userId}
             />
           </>
         ) : (
@@ -51,19 +55,20 @@ const mapStateToProps = (state) => {
   return {
     isFetching: state.infoProduct.isFetching,
     product: state.infoProduct.product,
-    userId: state.auth.userId,
-    userToken: state.auth.userToken,
+    accessToken: state.auth.accessToken,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getInfoProduct: (payload) =>
-      dispatch(actions.infoProducts.getInfoProductRequest(payload)),
+      dispatch(infoProductActions.getInfoProductRequest(payload)),
     addCartItemRequest: (payload) =>
-      dispatch(actions.carts.addCartItemRequest(payload)),
+      dispatch(cartActions.addCartItemRequest(payload)),
     addCommentRequest: (payload) =>
-      dispatch(actions.infoProducts.addCommentProductRequest(payload)),
+      dispatch(infoProductActions.addCommentProductRequest(payload)),
+    createOrderRequest: (payload) =>
+      dispatch(orderActions.createOrderRequest(payload)),
   };
 };
 

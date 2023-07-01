@@ -1,21 +1,15 @@
 import "./sidebar.css";
-import {
-  LineStyle,
-  Timeline,
-  TrendingUp,
-  PermIdentity,
-  Storefront,
-  AttachMoney,
-  BarChart,
-  MailOutline,
-  DynamicFeed,
-  ChatBubbleOutline,
-  WorkOutline,
-  Report,
-} from "@mui/icons-material";
+import { LineStyle, PermIdentity, Storefront } from "@mui/icons-material";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 export default function Sidebar() {
+  const [activeTitle, setActiveTitle] = useState("Dashboard");
+
+  const handleTitleClick = (title) => {
+    setActiveTitle(title);
+  };
+
   return (
     <div className="sidebar">
       <div className="sidebarWrapper">
@@ -23,82 +17,63 @@ export default function Sidebar() {
           <h3 className="sidebarTitle">Dashboard</h3>
           <ul className="sidebarList">
             <Link to="/" className="link">
-              <li className="sidebarListItem active">
+              <li
+                className={`sidebarListItem ${activeTitle === "" && "active"}`}
+                onClick={() => handleTitleClick("")}
+              >
                 <LineStyle className="sidebarIcon" />
                 Trang Chủ
               </li>
             </Link>
-            <li className="sidebarListItem">
-              <Timeline className="sidebarIcon" />
-              Analytics
-            </li>
-            <li className="sidebarListItem">
-              <TrendingUp className="sidebarIcon" />
-              Sales
-            </li>
           </ul>
         </div>
         <div className="sidebarMenu">
           <h3 className="sidebarTitle">Quick Menu</h3>
           <ul className="sidebarList">
-            <Link to="/nguoidung" className="link">
-              <li className="sidebarListItem">
+            <Link to="/user" className="link">
+              <li
+                className={`sidebarListItem ${
+                  activeTitle === "user" && "active"
+                }`}
+                onClick={() => handleTitleClick("user")}
+              >
                 <PermIdentity className="sidebarIcon" />
                 Người Dùng
               </li>
             </Link>
-            <Link to="/themnguoidung" className="link">
-              <li className="sidebarListItem">
+            <Link to="/addUser" className="link">
+              <li
+                className={`sidebarListItem ${
+                  activeTitle === "addUser" && "active"
+                }`}
+                onClick={() => handleTitleClick("addUser")}
+              >
                 <PermIdentity className="sidebarIcon" />
                 Thêm Người Dùng
               </li>
             </Link>
-            <Link to="/sanpham" className="link">
-              <li className="sidebarListItem">
+            <Link to="/product" className="link">
+              <li
+                className={`sidebarListItem ${
+                  activeTitle === "product" && "active"
+                }`}
+                onClick={() => handleTitleClick("product")}
+              >
                 <Storefront className="sidebarIcon" />
                 Sản Phẩm
               </li>
             </Link>
-            <Link to="/themsanpham" className="link">
-              <li className="sidebarListItem">
+            <Link to="/addProduct" className="link">
+              <li
+                className={`sidebarListItem ${
+                  activeTitle === "addProduct" && "active"
+                }`}
+                onClick={() => handleTitleClick("addProduct")}
+              >
                 <Storefront className="sidebarIcon" />
                 Thêm Sản Phẩm
               </li>
             </Link>
-          </ul>
-        </div>
-        <div className="sidebarMenu">
-          <h3 className="sidebarTitle">Notifications</h3>
-          <ul className="sidebarList">
-            <li className="sidebarListItem">
-              <MailOutline className="sidebarIcon" />
-              Mail
-            </li>
-            <li className="sidebarListItem">
-              <DynamicFeed className="sidebarIcon" />
-              Feedback
-            </li>
-            <li className="sidebarListItem">
-              <ChatBubbleOutline className="sidebarIcon" />
-              Messages
-            </li>
-          </ul>
-        </div>
-        <div className="sidebarMenu">
-          <h3 className="sidebarTitle">Staff</h3>
-          <ul className="sidebarList">
-            <li className="sidebarListItem">
-              <WorkOutline className="sidebarIcon" />
-              Manage
-            </li>
-            <li className="sidebarListItem">
-              <Timeline className="sidebarIcon" />
-              Analytics
-            </li>
-            <li className="sidebarListItem">
-              <Report className="sidebarIcon" />
-              Reports
-            </li>
           </ul>
         </div>
       </div>

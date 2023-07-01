@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import "../styles/index.scss";
-import { cartProduct } from "../myData";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { Rating } from "@mui/material";
 import { Favorite, ShoppingCart } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { getHostName, toastOptions } from "../util";
 
 export const CardProduct = (props) => {
-  const { data, addCartItemRequest, userId, userToken } = props;
-  const [quantity, setQuantity] = useState(1);
+  const { data, addCartItemRequest, accessToken } = props;
   const [image, setImage] = useState(data?.image[0]?.filePath);
   const [showCard, setShowCard] = useState(false);
   const settings = {
@@ -21,29 +21,20 @@ export const CardProduct = (props) => {
     slidesToScroll: 1,
   };
 
-  const toastOptions = {
-    position: "top-right",
-    autoClose: 3000,
-    pauseOnHover: true,
-    draggable: true,
-    theme: "dark",
-  };
-
   const changeImage = (index) => {
     setImage(data?.image[index]?.filePath);
   };
 
   const handleAddCart = () => {
-    if (userId) {
-      const cartItem = {
-        name: data?.name,
-        quantity,
-        image: data?.image[0].filePath,
-        price: data?.price,
-        product: data?._id,
+    if (accessToken) {
+      const dataCart = {
+        quantity: 1,
       };
-
-      addCartItemRequest({ userId, cartItem, userToken });
+      addCartItemRequest({
+        dataCart,
+        productId: data?.productId,
+        decrease: false,
+      });
     } else {
       toast.error("PLEASE LOGIN", toastOptions);
     }
@@ -53,39 +44,39 @@ export const CardProduct = (props) => {
     <>
       <div className="cardProduct">
         <div className="cardProduct_thumbnail">
-          <Link to={`/product/${data?._id}`} state={data?._id}>
-            <img
-              src={`http://localhost:8080/${image}`}
-              alt=""
-              className="cardProduct_img"
-            />
-          </Link>
+          <div className="cardProduct_thumbnail-image">
+            <Link to={`/product/${data?.productId}`} state={data?.productId}>
+              <img
+                src={`${getHostName()}/images/${data.image[0].name}`}
+                alt=""
+                className="cardProduct_img"
+              />
+            </Link>
+          </div>
           <div className="cardProduct_thumbnail-icon">
             <div>
               <Favorite />
             </div>
-            <div>
-              <ShoppingCart onClick={handleAddCart} />
+            <div onClick={handleAddCart}>
+              <ShoppingCart />
             </div>
           </div>
         </div>
         <div className="cardProduct_details">
           {/* <div className="cardProduct_details-container"> */}
           <p className="cardProduct_details-name">{data?.name}</p>
-          <p className="cardProduct_details-price">${data?.price}</p>
+          <p className="cardProduct_details-brand">{data?.brand}</p>
+          <Rating
+            className="cardProduct_details-rating"
+            readOnly
+            size="small"
+            defaultValue={data?.rating}
+          />
+          <p className="cardProduct_details-price">
+            <span>USD</span> {data?.price}
+          </p>
           {/* </div> */}
         </div>
-        {/* <div className="imgSlider">
-          {data?.image.map((img, index) => (
-            <div
-              key={index}
-              className="slider-item"
-              onMouseOver={(e) => changeImage(index)}
-            >
-              <img src={`http://localhost:8080/${img?.filePath}`} alt="" />
-            </div>
-          ))}
-        </div> */}
         <ToastContainer />
       </div>
     </>

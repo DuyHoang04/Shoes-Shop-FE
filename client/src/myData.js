@@ -225,3 +225,37 @@ export const contactData = [
     phone: "(+84) 3234-6789",
   },
 ];
+
+export const footerAddress = [
+  {
+    title: "ADDRESS OFFICE 1",
+    address: "460 West 34th Street, 15th floor, New York",
+    email: "support@store.com",
+    phone: "+123 4567 900",
+    fax: "++123 4567 900",
+  },
+  {
+    title: "ADDRESS OFFICE 2",
+    address: "PO Box 16122 Collins Victoria 3000 Australia",
+    email: "support2@store.com",
+    phone: "+123 4567 900",
+    fax: "++123 4567 900",
+  },
+];
+
+export const footerWidget = [
+  {
+    title: "ADDRESS OFFICE 1",
+    address: "460 West 34th Street, 15th floor, New York",
+    email: "support@store.com",
+    phone: "+123 4567 900",
+    fax: "++123 4567 900",
+  },
+  {
+    title: "ADDRESS OFFICE 2",
+    address: "PO Box 16122 Collins Victoria 3000 Australia",
+    email: "support2@store.com",
+    phone: "+123 4567 900",
+    fax: "++123 4567 900",
+  },
+];

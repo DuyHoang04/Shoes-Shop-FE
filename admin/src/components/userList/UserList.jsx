@@ -1,19 +1,14 @@
 import "./userList.css";
 import { DataGrid } from "@mui/x-data-grid";
 import { DeleteOutline } from "@mui/icons-material";
-import { userRows } from "../../dummyData";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import avatar from "../../public/image/avatar.png";
 
-export default function UserList() {
-  const [data, setData] = useState(userRows);
-
-  const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
-  };
+export default function UserList(props) {
+  const { userList, removeUserRequest } = props;
 
   const columns = [
-    { field: "id", headerName: "ID", width: 90 },
+    { field: "userId", headerName: "ID", width: 90 },
     {
       field: "user",
       headerName: "User",
@@ -21,7 +16,7 @@ export default function UserList() {
       renderCell: (params) => {
         return (
           <div className="userListUser">
-            <img className="userListImg" src={params.row.avatar} alt="" />
+            <img className="userListImg" src={avatar} alt="" />
             {params.row.username}
           </div>
         );
@@ -34,8 +29,9 @@ export default function UserList() {
       width: 120,
     },
     {
-      field: "transaction",
-      headerName: "Transaction Volume",
+      field: "role",
+      headerName: "Role",
+
       width: 160,
     },
     {
@@ -45,12 +41,12 @@ export default function UserList() {
       renderCell: (params) => {
         return (
           <>
-            <Link to={"/user/" + params.row.id}>
+            <Link to={"/user/" + params.row.userId} state={params.row}>
               <button className="userListEdit">Edit</button>
             </Link>
             <DeleteOutline
               className="userListDelete"
-              onClick={() => handleDelete(params.row.id)}
+              onClick={() => removeUserRequest(params.row.userId)}
             />
           </>
         );
@@ -61,9 +57,10 @@ export default function UserList() {
   return (
     <div className="userList">
       <DataGrid
-        rows={data}
+        rows={userList}
         disableSelectionOnClick
         columns={columns}
+        getRowId={(row) => row.userId}
         pageSize={8}
         checkboxSelection
       />

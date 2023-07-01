@@ -1,44 +1,63 @@
-import React from "react";
+import React, { useState } from "react";
 import "../../styles/index.scss";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import { CardProduct } from "../CardProduct";
 
 export const Sales = (props) => {
-  const { productList } = props;
-  const settingsSlick = {
-    dots: true,
-    speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 1,
-    autoplay: true,
-    speed: 1000,
-    infinite: true,
-    autoplaySpeed: 4000,
-    responsive: [
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          infinite: true,
-        },
-      },
-    ],
+  const { productList, accessToken, addCartItemRequest } = props;
+  const [isMobile, setIsMobile] = useState(window.innerWidth);
+  const [currentPosition, setCurrentPosition] = useState(0);
+
+  window.addEventListener("resize", () => setIsMobile(window.innerWidth));
+
+  const handlePrev = () => {
+    if (currentPosition > 0) {
+      setCurrentPosition(currentPosition - 1);
+    }
+  };
+
+  const handleNext = () => {
+    if (isMobile < 768) {
+      if (currentPosition < productList.length - 2) {
+        setCurrentPosition(currentPosition + 1);
+      }
+    } else {
+      if (currentPosition < productList.length - 4) {
+        setCurrentPosition(currentPosition + 1);
+      }
+    }
   };
 
   return (
     <div className="sales">
       <div className="salesTitle">
         <h1> -TOP SALES</h1>
+        <div className="buttonContainer">
+          <button onClick={handlePrev}>
+            <ArrowBack /> Prev
+          </button>
+          <button onClick={handleNext}>
+            Next <ArrowForward />
+          </button>
+        </div>
       </div>
-      <div className="salesSlider">
-        <Slider {...settingsSlick} className="salesSlider_container">
-          {productList?.map((product, index) => (
-            <CardProduct key={index} data={product} />
-          ))}
-        </Slider>{" "}
+      <div className="slider">
+        <div className="slider-container">
+          <div
+            className="slider-track"
+            style={{ transform: `translateX(-${currentPosition * 340}px)` }}
+          >
+            {productList?.map((product, index) => (
+              <div className="card-product" key={index}>
+                <CardProduct
+                  data={product}
+                  accessToken={accessToken}
+                  addCartItemRequest={addCartItemRequest}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );

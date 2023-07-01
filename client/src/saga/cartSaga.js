@@ -10,24 +10,23 @@ import * as callAPI from "../fetchApi/cartApi";
 import * as selectors from "../selectors/index";
 
 function* handleAddItem({ payload }) {
-  console.log(payload);
+  console.log(payload, "PAYLOAD");
   try {
-    const userId = yield select(selectors.userId);
-    const userToken = yield select(selectors.userToken);
-    yield callAPI.addCartItem(payload);
+    const accessToken = yield select(selectors.accessToken);
+    yield callAPI.addCartItem({ payload, accessToken });
     yield put(actions.addCartItemSuccess());
-    yield put(actions.getCartItemRequest(userId));
+    yield put(actions.getCartItemRequest());
   } catch (err) {
     yield put(actions.addCartItemFailure(err));
   }
 }
 
 function* handleGetCartItem({ payload }) {
-  console.log(payload);
   try {
-    const data = yield callAPI.getCartItem(payload);
+    const accessToken = yield select(selectors.accessToken);
+    const { data } = yield callAPI.getCartItem(accessToken);
     if (data) {
-      yield put(actions.getCartItemSuccess(data.orderItems));
+      yield put(actions.getCartItemSuccess(data));
     } else {
       yield put(actions.getCartItemSuccess([]));
     }

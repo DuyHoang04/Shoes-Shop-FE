@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Register } from "../components/Auth/Register";
-import * as actions from "../action/authAction";
+import * as authActions from "../action/authAction";
 
 const RegisterContainer = (props) => {
   const { registerRequest, notice } = props;
@@ -16,7 +16,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    registerRequest: (payload) => dispatch(actions.registerRequest(payload)),
+    registerRequest: (payload) =>
+      dispatch(authActions.registerRequest(payload)),
   };
 };
 

@@ -1,54 +1,108 @@
 import "./newUser.css";
+import { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-export default function NewUser() {
+export default function NewUser(props) {
+  const { addUserRequest, errorMessage, successMessage } = props;
+  const [userData, setUserData] = useState({
+    username: "",
+    email: "",
+    password: "",
+    status: "",
+    role: "",
+  });
+
+  const toastOptions = {
+    position: "top-right",
+    autoClose: 3000,
+    pauseOnHover: true,
+    draggable: true,
+    theme: "dark",
+  };
+
+  const handleChangeValue = (e) => {
+    setUserData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleAddUser = (e) => {
+    e.preventDefault();
+    if (validateData()) {
+      addUserRequest(userData);
+    }
+  };
+
+  const validateData = () => {
+    const { username, email, password, status, role } = userData;
+
+    if (!username || !email || !password || !status || !role) {
+      toast.error("Không được bỏ trống Ô nào", toastOptions);
+      return false;
+    } else {
+      return true;
+    }
+  };
+
   return (
     <div className="newUser">
       <h1 className="newUserTitle">New User</h1>
       <form className="newUserForm">
         <div className="newUserItem">
           <label>Username</label>
-          <input type="text" placeholder="john" />
-        </div>
-        <div className="newUserItem">
-          <label>Full Name</label>
-          <input type="text" placeholder="John Smith" />
+          <input
+            onChange={handleChangeValue}
+            name="username"
+            type="text"
+            placeholder="john"
+          />
         </div>
         <div className="newUserItem">
           <label>Email</label>
-          <input type="email" placeholder="john@gmail.com" />
+          <input
+            onChange={handleChangeValue}
+            name="email"
+            type="email"
+            placeholder="john@gmail.com"
+          />
         </div>
         <div className="newUserItem">
           <label>Password</label>
-          <input type="password" placeholder="password" />
+          <input
+            onChange={handleChangeValue}
+            name="password"
+            type="password"
+            placeholder="password"
+          />
         </div>
         <div className="newUserItem">
-          <label>Phone</label>
-          <input type="text" placeholder="+1 123 456 78" />
-        </div>
-        <div className="newUserItem">
-          <label>Address</label>
-          <input type="text" placeholder="New York | USA" />
-        </div>
-        <div className="newUserItem">
-          <label>Gender</label>
-          <div className="newUserGender">
-            <input type="radio" name="gender" id="male" value="male" />
-            <label for="male">Male</label>
-            <input type="radio" name="gender" id="female" value="female" />
-            <label for="female">Female</label>
-            <input type="radio" name="gender" id="other" value="other" />
-            <label for="other">Other</label>
-          </div>
-        </div>
-        <div className="newUserItem">
-          <label>Active</label>
-          <select className="newUserSelect" name="active" id="active">
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
+          <label>Status</label>
+          <select
+            onChange={handleChangeValue}
+            name="status"
+            className="newUserSelect"
+          >
+            <option value="">Select</option>
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
           </select>
         </div>
-        <button className="newUserButton">Create</button>
+        <div className="newUserItem">
+          <label>Role</label>
+          <select
+            onChange={handleChangeValue}
+            name="role"
+            className="newUserSelect"
+          >
+            <option value="">Select</option>
+            <option value="ADMIN">ADMIN</option>
+            <option value="USER">USER</option>
+          </select>
+        </div>
+        <button onClick={handleAddUser} className="newUserButton">
+          Create
+        </button>
       </form>
+      <ToastContainer />
     </div>
   );
 }

@@ -8,11 +8,9 @@ import {
 } from "../constants/AuthType";
 
 export const initialState = {
-  userToken: "",
-  userId: "",
+  accessToken: "",
   isFetching: false,
   error: "",
-  notice: "",
 };
 
 const authReducer = (state = initialState, action) => {
@@ -27,8 +25,7 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
-        userToken: action?.payload?.token,
-        userId: action?.payload?._id,
+        accessToken: action.payload,
       };
     case REGISTER_SUCCESS:
       return {
